@@ -57,5 +57,7 @@ public class UserController {
 
     }
 
+    // Metodo para validar caracteres del email
+
 
 }
