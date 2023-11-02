@@ -3,13 +3,15 @@ package com.ar.cac.homebanking.controllers;
 import com.ar.cac.homebanking.models.dtos.UserDTO;
 import com.ar.cac.homebanking.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class UserController {
 
     // Generar una instancia del Service (UserService) -> Inyectar una instancia mediante Spring Boot
@@ -26,23 +28,20 @@ public class UserController {
     // CRUD: Crear, Leer, Modificar, Eliminar
 
 
-    // TODO: Refactorizar el método para que retorne un ResponseEntity<List<UserDTO>>
-    @GetMapping(value = "/users")
-    public List<String> getUsers(){
-        List<String> lista = service.getUsers();
-        return lista;
-        // llamar al servicio de usuarios para obtener la lista desde la base de datos
-        //return List.of("Cristian", "Martina", "Lucas");
+    @GetMapping
+    public ResponseEntity<List<UserDTO>> getUsers(){
+        List<UserDTO> lista = service.getUsers();
+        return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 
-    @GetMapping(value = "/users/{id}")
-    public void getUserById(@PathVariable Long id){
-
+    @GetMapping(value = "/{id}")
+    public UserDTO getUserById(@PathVariable Long id){
+        return null;
     }
 
-    @PostMapping(value = "/users")
-    public void createUser(@RequestBody UserDTO user){
-
+    @PostMapping
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user){
+        return  ResponseEntity.status(HttpStatus.CREATED).body(service.createUser(user));
     }
 
     public void updateAllUser(){
