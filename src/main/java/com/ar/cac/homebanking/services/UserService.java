@@ -1,10 +1,13 @@
 package com.ar.cac.homebanking.services;
 
+import com.ar.cac.homebanking.exceptions.UserNotExistsException;
 import com.ar.cac.homebanking.mappers.UserMapper;
 import com.ar.cac.homebanking.models.User;
 import com.ar.cac.homebanking.models.dtos.UserDTO;
 import com.ar.cac.homebanking.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,4 +37,18 @@ public class UserService {
     }
 
 
+    public UserDTO getUserById(Long id) {
+        User entity = repository.findById(id).get();
+        return UserMapper.userToDto(entity);
+    }
+
+    public String deleteUser(Long id){
+        if (repository.existsById(id)){
+            repository.deleteById(id);
+            return "El usuario con id: " + id + " ha sido eliminado";
+        } else {
+            throw new UserNotExistsException("El usuario a eliminar elegido no existe");
+        }
+
+    }
 }
