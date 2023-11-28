@@ -31,7 +31,8 @@ public class AccountService {
     }
 
     public AccountDTO createAccount(AccountDTO dto) {
-        dto.setType(AccountType.SAVINGS_BANK);
+        // TODO: REFACTOR
+        //dto.setType(AccountType.SAVINGS_BANK);
         dto.setAmount(BigDecimal.ZERO);
         Account newAccount = repository.save(AccountMapper.dtoToAccount(dto));
         return AccountMapper.accountToDto(newAccount);
